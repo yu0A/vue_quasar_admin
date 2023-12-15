@@ -6,12 +6,12 @@ Dependencies
    $ npm i -g @quasar/cli
 
 Deploy
-Run the commands below:
-$ npm i
+1. Run the commands below:
+   $ npm i
 
 Development
-Run the commands below:
-$ quasar dev
+1. Run the commands below:
+   $ quasar dev
 
 Known Issues:
 
