@@ -7,13 +7,24 @@
   <q-separator inset />
   <div class="q-pa-md row self-center full-width full-height no-outline">
     <div class="q-gutter-y-md q-pa-sm col">
-      <q-input v-model="textInput" label="输入Python脚本" type="textarea" filled style="height: 70vh" />
+      <q-input
+        v-model="textInput"
+        label="输入Python脚本"
+        filled
+        class="change-input-height wrap"
+        type="textarea"
+      />
     </div>
     <q-separator vertical inset />
     <div class="q-gutter-y-md q-pa-sm col">
-      <q-field type="textarea" class="full-height" filled>
-        <div style="height: 70vh">{{ textOutput }}</div>
-      </q-field>
+      <q-input
+        v-model="textOutput"
+        label="输出结果"
+        filled
+        class="change-input-height wrap"
+        type="textarea"
+        readonly
+      />
     </div>
   </div>
 </template>
@@ -21,45 +32,39 @@
 <script>
 import { ref, onMounted } from "vue";
 import { useCounterStore } from "src/stores/example-store";
-import netImportUrl from "src/pythonScripts/net_import.py?url";
+import TestClassUrl from "src/pythonScripts/TestClass.py?url";
 
 export default {
   setup() {
     const store = useCounterStore();
     let pyodide = ref(null);
-    let netImport = null;
-
+    let pythonTestClass = null;
     setTimeout(() => {
       store.setFooterNote(
         "要使用Python面向对象编程，首先要在脚本中定义类，再创建对象，然后再运行相关的逻辑。"
       );
       // 加载Python环境
       pyodide = store.pyodide;
-      // console.log(pyodide)
-    }, 5000);
+    }, 10);
 
     onMounted(async () => {
       //读取本地脚本
-      netImport = await (await fetch(netImportUrl)).text();
-      textInput.value = netImport;
+      pythonTestClass = await (await fetch(TestClassUrl)).text();
+      textInput.value = pythonTestClass;
     });
     // Python交互组件
-    let textInput = ref("");
+    let textInput = ref("str(TestClass)");
     let textOutput = ref("运行结果");
 
     return {
-      netImport,
+      pythonTestClass,
       pyodide,
       store,
       textInput,
       textOutput,
       async runPython() {
-        console.log(pyodide)
-        await pyodide.loadPackage("micropip");
-        await pyodide.loadPackage("numpy")
-
         store.setGlobalLoading(true);
-        pyodide.runPython(textInput.value);
+        // pyodide.runPython(textInput.value);
         textOutput.value = pyodide.runPython(textInput.value);
         console.log(textOutput.value);
         store.setGlobalLoading(false);
@@ -68,3 +73,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+::v-deep div.q-field__control-container.col.relative-position.row.no-wrap.q-anchor--skip {
+  height: 70vh;
+}
+::v-deep div.q-field__control-container.col.relative-position.row.no-wrap.q-anchor--skip > div.q-field__control.relative-position.row.no-wrap {
+  height: 70vh;
+}
+</style>

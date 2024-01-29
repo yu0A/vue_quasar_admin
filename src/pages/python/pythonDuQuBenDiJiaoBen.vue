@@ -10,16 +10,21 @@
       <q-input
         v-model="textInput"
         label="输入Python脚本"
-        type="textarea"
         filled
-        style="height: 70vh"
+        class="change-input-height wrap"
+        type="textarea"
       />
     </div>
     <q-separator vertical inset />
     <div class="q-gutter-y-md q-pa-sm col">
-      <q-field type="textarea" class="full-height" filled
-        ><div style="height: 70vh">{{ textOutput }}</div></q-field
-      >
+      <q-input
+        v-model="textOutput"
+        label="输出结果"
+        filled
+        class="change-input-height wrap"
+        type="textarea"
+        readonly
+      />
     </div>
   </div>
 </template>
@@ -68,3 +73,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+::v-deep div.q-field__control-container.col.relative-position.row.no-wrap.q-anchor--skip {
+  height: 70vh;
+}
+::v-deep div.q-field__control-container.col.relative-position.row.no-wrap.q-anchor--skip > div.q-field__control.relative-position.row.no-wrap {
+  height: 70vh;
+}
+</style>

@@ -15,33 +15,63 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" behavior="desktop" bordered>
-      <q-tree :nodes="routes" node-key="label" children-key="children" label-key="label" default-expand-all fit>
-        <template v-slot:default-header="prop">
-          <q-list fit style="min-width: 100px; width: 100%" :bordered="true" class="q-my-none rounded-borders">
-            <q-item clickable v-ripple @click="routesTo(prop.node)">
-              <q-item-section>{{ prop.node.label }}</q-item-section>
-              <q-item-section avatar>
-                <q-icon :color="prop.node.color" :name="prop.node.icon" />
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </template>
-      </q-tree>
+    <q-drawer
+      show-if-above
+      v-model="leftDrawerOpen"
+      side="left"
+      behavior="desktop"
+      bordered
+      >
+      <q-expansion-item
+        expand-separator
+        :icon="v1.icon"
+        :label="v1.label"
+        :color="v1.color"
+        :caption="v1.caption"
+        :header-class="'text-' + v1.color"
+        v-for="(v1, k1) in routes" :key="k1">
+        <q-list bordered v-for="(v, k) in v1.children" :key="k">
+          <q-item clickable v-ripple :to="v.path">
+            <q-item-section>{{ v.label }}</q-item-section>
+            <q-item-section avatar>
+              <q-avatar :color="v.color" text-color="white" :icon="v.icon" />
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-expansion-item>
     </q-drawer>
 
-    <q-drawer v-model="rightDrawerOpen" side="right" overlay behavior="desktop" bordered>
+    <q-drawer
+      v-model="rightDrawerOpen"
+      side="right"
+      overlay
+      behavior="desktop"
+      bordered
+    >
       <!-- drawer content -->
       <!-- drawer content -->
-      <q-tabs vertical inline-label>
-        <div align="left" v-for="(v, k) in routes" :key="k">
-          <q-route-tab :to="v.path" :label="v.label" :icon="v.icon" :class="v.color" />
-        </div>
-      </q-tabs>
+      <q-expansion-item
+        expand-separator
+        icon="perm_identity"
+        label="Account settings"
+        caption="John Doe"
+      >
+        <q-list bordered v-for="(v, k) in routes" :key="k">
+          <q-item clickable v-ripple :to="v.path">
+            <q-item-section>{{ v.label }}</q-item-section>
+            <q-item-section avatar>
+              <q-avatar :color="v.color" text-color="white" :icon="v.icon" />
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-expansion-item>
     </q-drawer>
 
     <q-page-container>
-      <q-inner-loading :showing="visible" style="position: absolute; z-index: 1000000">
+      <q-inner-loading
+        :showing="visible"
+        style="position: absolute; z-index: 1000000"
+      >
         <q-spinner-gears size="50px" color="primary" />
       </q-inner-loading>
       <router-view />
@@ -58,7 +88,13 @@
 </template>
 
 <script>
-import { ref, onMounted, computed, getCurrentInstance, onBeforeMount } from "vue";
+import {
+  ref,
+  onMounted,
+  computed,
+  getCurrentInstance,
+  onBeforeMount,
+} from "vue";
 import routes from "src/router/routes";
 import { useRouter } from "vue-router";
 import { useCounterStore } from "src/stores/example-store";
@@ -78,7 +114,7 @@ export default {
     let pyodide = ref(null);
     let initPyodide = async () => {
       pyodide = await loadPyodide();
-      Promise.resolve().then(res => {
+      Promise.resolve().then((res) => {
         store.setPyodide(pyodide);
         setTimeout(() => {
           store.setGlobalLoading(false);
@@ -89,6 +125,7 @@ export default {
     onMounted(async () => {
       store.setGlobalLoading(true);
       initPyodide();
+      console.log(111);
     });
 
     return {

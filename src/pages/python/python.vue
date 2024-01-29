@@ -1,7 +1,8 @@
 <template>
   <div class="q-pa-md row">
     <div class="q-gutter-y-md q-pa-sm col">
-      <q-input v-model="text" label="输入Python脚本" type="textarea" />
+      <q-input v-model="text" label="输入Python脚本" 
+        dense/>
 
       <q-separator vertical inset />
       <div class="q-pa-md q-gutter-sm col">
