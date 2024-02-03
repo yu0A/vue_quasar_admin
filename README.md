@@ -17,4 +17,4 @@ Known Issues:
 
 * [Cannot online import whl in SPA app #4341](https://github.com/pyodide/pyodide/issues/4341#issuecomment-1857390576)
 * ["module://matplotlib_pyodide.wasm_backend" should auto clear the old pictures instead of generate new pictures #4447](https://github.com/pyodide/pyodide/issues/4447)
-* [[Bug]: Matplotlib backend should support overwriting and running close() function](https://github.com/matplotlib/matplotlib/issues/27741)
+* [[Bug]: Matplotlib backend should support overwriting and running close() function #27741](https://github.com/matplotlib/matplotlib/issues/27741)
